@@ -46,9 +46,9 @@ foreach ($p in $config.paths) {
   $src = "s3://$bucket/$prefix/$p"
 
   # Does not delete local files
-  if (Test-Path $dst -and (Get-Item $dst).PSIsContainer) {
+  if ((Test-Path $dst) -and (Get-Item $dst).PSIsContainer) {
     & $aws s3 sync $src $dst --endpoint-url $endpoint --no-progress
-  } elseif (Test-Path $dst -and !(Get-Item $dst).PSIsContainer) {
+  } elseif ((Test-Path $dst) -and !(Get-Item $dst).PSIsContainer) {
     & $aws s3 cp $src $dst --endpoint-url $endpoint --no-progress
   } else {
     # If destination doesn't exist, decide based on known paths
