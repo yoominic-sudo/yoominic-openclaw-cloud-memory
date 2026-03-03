@@ -7,13 +7,14 @@
 - Environments: dev / prod
 
 ## Deploy
-- Host(s): (fill)
-- Runtime: (docker/systemd/pm2/k8s/etc)
-- Build: (fill)
-- Start command: (fill)
-- Ports: (fill)
-- Domains: (fill)
-- SSL: (fill)
+- Deployment: **No deployment required** (per user)
+- Host(s): n/a
+- Runtime: n/a
+- Build: n/a
+- Start command: n/a
+- Ports: n/a
+- Domains: n/a
+- SSL: n/a
 
 ## Config
 - Required env vars: (fill)
