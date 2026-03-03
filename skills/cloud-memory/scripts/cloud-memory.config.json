@@ -1,0 +1,10 @@
+{
+  "workspaceRoot": "C:/Users/Administrator.DESKTOP-3UP6KU6/.openclaw/workspace",
+  "qiniuRemote": "qiniu",
+  "bucket": "<YOUR_BUCKET_NAME>",
+  "prefix": "openclaw-memory",
+  "paths": [
+    "MEMORY.md",
+    "memory"
+  ]
+}
