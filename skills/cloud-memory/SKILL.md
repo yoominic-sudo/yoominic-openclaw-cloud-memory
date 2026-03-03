@@ -16,6 +16,20 @@ This skill implements **local-first memory + Qiniu (S3-compatible) sync**.
    - `memory/**/*.md`
    - optional: `memory/*.json`
 
+## Daily review / self-improvement loop (recommended)
+
+This skill supports a strict daily loop (inspired by your “自我进化” spec):
+
+1) **Backup first** (always attempt; if sync fails, log and continue)
+2) **Introspection & analysis** (read today’s `memory/` and compare to `MEMORY.md` baseline)
+3) **Distill & adjust** (append a concise recap to today’s file, optionally update `MEMORY.md`)
+4) **Briefing output** (Chinese summary: sync status + lessons + any config changes)
+
+Red lines:
+- Do **not** auto-install skills.
+- Do **not** execute drafts that you wrote “as suggestions”.
+- Do **not** edit `SOUL.md` casually.
+
 ## Memory structure (recommended)
 
 Create these directories under the OpenClaw workspace root:

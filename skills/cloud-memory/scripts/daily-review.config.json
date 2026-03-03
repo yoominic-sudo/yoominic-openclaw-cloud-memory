@@ -1,0 +1,16 @@
+{
+  "workspaceRoot": "C:/Users/Administrator.DESKTOP-3UP6KU6/.openclaw/workspace",
+  "today": "auto",
+  "backup": {
+    "mode": "s3",
+    "pushScript": "skills/cloud-memory/scripts/cloud-memory-s3-push.ps1"
+  },
+  "inputs": {
+    "dailyDir": "memory",
+    "baseline": "MEMORY.md"
+  },
+  "output": {
+    "appendToDaily": true,
+    "briefToStdout": true
+  }
+}
