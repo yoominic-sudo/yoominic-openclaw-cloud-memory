@@ -78,16 +78,37 @@ Edit `scripts/cloud-memory.config.json` and fill:
 
 ## Sync commands
 
-### Upload (push local → cloud)
+You can use either **rclone** (A) or **S3-compatible via AWS CLI** (B).
+
+### A) rclone (push local → cloud)
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\cloud-memory-push.ps1
 ```
 
-### Download (pull cloud → local)
+### A) rclone (pull cloud → local)
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\cloud-memory-pull.ps1
+```
+
+### B) S3-compatible (AWS CLI) (push local → cloud)
+
+Prereqs:
+- Install AWS CLI v2
+- Set env vars `QINIU_AK` and `QINIU_SK` in your shell (**do not paste into chat**)
+- Configure `scripts/cloud-memory-s3.config.json`
+
+Run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\cloud-memory-s3-push.ps1
+```
+
+### B) S3-compatible (AWS CLI) (pull cloud → local)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\cloud-memory-s3-pull.ps1
 ```
 
 ## Operational policy

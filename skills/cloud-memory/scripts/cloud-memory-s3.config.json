@@ -1,8 +1,9 @@
 {
   "workspaceRoot": "C:/Users/Administrator.DESKTOP-3UP6KU6/.openclaw/workspace",
-  "qiniuRemote": "qiniu",
+  "endpoint": "https://yoominic-openclaw.s3.cn-south-1.qiniucs.com",
   "bucket": "yoominic-openclaw",
   "prefix": "clawX",
+  "region": "cn-south-1",
   "paths": [
     "MEMORY.md",
     "memory"
