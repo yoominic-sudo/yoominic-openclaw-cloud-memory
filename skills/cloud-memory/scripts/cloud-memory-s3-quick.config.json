@@ -1,0 +1,22 @@
+{
+  "workspaceRoot": "C:/Users/Administrator.DESKTOP-3UP6KU6/.openclaw/workspace",
+  "endpoint": "https://yoominic-openclaw.s3.cn-south-1.qiniucs.com",
+  "bucket": "yoominic-openclaw",
+  "prefix": "clawX",
+  "paths": [
+    "MEMORY.md",
+    "memory"
+  ],
+  "quick": {
+    "include": [
+      "MEMORY.md",
+      "memory/*.md",
+      "memory/projects/*.md",
+      "memory/infra/*.md"
+    ],
+    "exclude": [
+      "memory/weekly/**",
+      "memory/archive/**"
+    ]
+  }
+}
