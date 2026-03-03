@@ -21,6 +21,15 @@ Run:
 openclaw cron add --name "cloud-memory-hourly-sync" --every 1h --session isolated --light-context --message "HOURLY_CLOUD_MEMORY_SYNC: Run pull then push for cloud memory. Step1 exec: powershell -NoProfile -ExecutionPolicy Bypass -File skills\\cloud-memory\\scripts\\cloud-memory-s3-pull.ps1 . Step2 exec: powershell -NoProfile -ExecutionPolicy Bypass -File skills\\cloud-memory\\scripts\\cloud-memory-s3-push.ps1 . Best-effort: if either fails, write a concise error line into workspace/memory/YYYY-MM-DD.md under a 'Sync Errors' section (create if missing). Do not do any other actions." --no-deliver
 ```
 
+## Test the job now
+
+Cron runs may take longer than 30s depending on network. Use a higher timeout:
+
+```powershell
+openclaw cron run d474f30e-29fb-4b03-9a7d-4f7569c14b26 --timeout 180000
+```
+```
+
 ## Remove the job
 
 ```powershell
