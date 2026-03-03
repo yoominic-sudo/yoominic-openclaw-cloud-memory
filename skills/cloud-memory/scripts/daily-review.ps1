@@ -164,6 +164,10 @@ if ($indexDuplicates.Count -gt 0) {
 }
 
 $recap += "- Notes: 请补充——今日关键教训/被纠正点/低效操作；并决定哪些结论需要沉淀进 MEMORY.md（删除过时项）。"
+$recap += "- 纠正点清单:"
+$recap += "  - (例) 我误解了 X → 以后遇到 Y 先 memory_search 再行动。"
+$recap += "- 低效操作清单:"
+$recap += "  - (例) 反复让你提供同一信息 → 建立项目/服务器档案并索引。"
 $recap += ""
 
 if ($config.output.appendToDaily) {
