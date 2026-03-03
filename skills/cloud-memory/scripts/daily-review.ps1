@@ -95,11 +95,15 @@ try {
   # ignore
 }
 
-# 3) Check MEMORY.md index completeness for projects
+# 3) Check MEMORY.md baseline/index quality
 $indexMissing = @()
+$indexBroken = @()
+$indexDuplicates = @()
 try {
   $memPath = Join-Path $workspace 'MEMORY.md'
   $memText = if (Test-Path $memPath) { Get-Content $memPath -Raw } else { '' }
+
+  # 3a) Missing: project files not referenced by MEMORY.md
   $projDir = Join-Path $workspace 'memory/projects'
   if (Test-Path $projDir) {
     Get-ChildItem -Path $projDir -Filter '*.md' -File -ErrorAction SilentlyContinue | ForEach-Object {
@@ -107,6 +111,22 @@ try {
       $rel = "memory/projects/$($_.Name)"
       if ($memText -notmatch [Regex]::Escape($rel)) { $indexMissing += $rel }
     }
+  }
+
+  # 3b) Broken refs: referenced memory files that do not exist locally
+  $refs = @()
+  foreach ($m in [Regex]::Matches($memText, "memory/(projects|infra)/[^\s`\)\]]+\.md")) {
+    $refs += $m.Value
+  }
+  foreach ($r in $refs) {
+    $full = Join-Path $workspace $r
+    if (!(Test-Path $full)) { $indexBroken += $r }
+  }
+
+  # 3c) Duplicates: same ref mentioned multiple times
+  $groups = $refs | Group-Object
+  foreach ($g in $groups) {
+    if ($g.Count -gt 1) { $indexDuplicates += ("{0} (x{1})" -f $g.Name, $g.Count) }
   }
 } catch {
   # ignore
@@ -136,6 +156,12 @@ if ($placeholders.Count -gt 0) {
 if ($indexMissing.Count -gt 0) {
   $recap += "- MEMORY.md index missing entries: " + ($indexMissing -join ', ')
 }
+if ($indexBroken.Count -gt 0) {
+  $recap += "- MEMORY.md broken refs (file missing): " + ($indexBroken -join ', ')
+}
+if ($indexDuplicates.Count -gt 0) {
+  $recap += "- MEMORY.md duplicate refs: " + ($indexDuplicates -join ', ')
+}
 
 $recap += "- Notes: 请补充——今日关键教训/被纠正点/低效操作；并决定哪些结论需要沉淀进 MEMORY.md（删除过时项）。"
 $recap += ""
@@ -145,9 +171,27 @@ if ($config.output.appendToDaily) {
 }
 
 if ($config.output.briefToStdout) {
-  Write-Output ("同步: {0}" -f ($(if ($backupOk) { "成功" } else { "失败(继续复盘)" })))
-  if (-not $backupOk -and $backupErr) { Write-Output ("同步报错: {0}" -f $backupErr) }
-  if ($placeholders.Count -gt 0) { Write-Output ("未补全模板: {0}" -f ($placeholders -join ', ')) }
-  if ($indexMissing.Count -gt 0) { Write-Output ("索引缺失: {0}" -f ($indexMissing -join ', ')) }
-  Write-Output "复盘: 已在今日文件追加 Daily Review 段落（请补充内容）。"
+  # Three-part briefing (per spec)
+  Write-Output "同步:"
+  Write-Output ("- 七牛同步: {0}" -f ($(if ($backupOk) { "成功" } else { "失败(继续复盘)" })))
+  if (-not $backupOk -and $backupErr) { Write-Output ("  - 报错: {0}" -f $backupErr) }
+
+  Write-Output "复盘:"
+  if ($placeholders.Count -gt 0) { Write-Output ("- 未补全模板: {0}" -f ($placeholders -join ', ')) } else { Write-Output "- 未补全模板: 无" }
+  if ($indexMissing.Count -gt 0) { Write-Output ("- 索引缺失: {0}" -f ($indexMissing -join ', ')) } else { Write-Output "- 索引缺失: 无" }
+  if ($indexBroken.Count -gt 0) { Write-Output ("- 索引坏链: {0}" -f ($indexBroken -join ', ')) } else { Write-Output "- 索引坏链: 无" }
+  if ($indexDuplicates.Count -gt 0) { Write-Output ("- 索引重复: {0}" -f ($indexDuplicates -join ', ')) } else { Write-Output "- 索引重复: 无" }
+
+  Write-Output "建议:"
+  if ($placeholders.Count -gt 0) {
+    Write-Output "- 优先把 '(fill)' 的项目/主机档案补全（不然下次部署还会问你）。"
+  } else {
+    Write-Output "- 今日无强制补全项。"
+  }
+  if ($indexMissing.Count -gt 0) {
+    Write-Output "- 把未收录的项目文件补进 MEMORY.md 项目索引。"
+  }
+  if ($indexBroken.Count -gt 0) {
+    Write-Output "- 清理 MEMORY.md 里引用但文件不存在的条目（或补回对应文件）。"
+  }
 }
