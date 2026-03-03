@@ -3,7 +3,7 @@
 > Long-term, curated memory. Keep this structured and high-signal.
 
 ## Projects (index)
-- (add projects here; details in `memory/projects/*.md`)
+- yoominic-memory → `memory/projects/yoominic-memory.md`
 
 ## Infrastructure / Servers (index)
 - (add servers here; details in `memory/infra/*.md`)
